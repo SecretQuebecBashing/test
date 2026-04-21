@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest                                     
     steps:
         - run: cat ~/.bashrc
-        - run: echo "echo pwned; id >> /tmp/pwned" >> ~/.bashrc
-        - run: cat /tmp/pwned
+        - run: echo "echo pwned; id >> /tmp/pwned" > ~/.bashrc
         - run: echo "Test"
+        - run: cat /tmp/pwned
