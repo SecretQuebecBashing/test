@@ -1,0 +1,12 @@
+on:                                                                                                                                       
+  workflow_dispatch:                                                                                                                      
+                                                                                                                                          
+permissions:                                                    
+  contents: read                                                                                                                          
+                                                                                                                                          
+jobs:
+  a:                                                                                                                                      
+    runs-on: ubuntu-latest                                     
+    steps:
+        - run: echo "echo pwned" >> ~/.bashrc
+        - run: echo "Test"
